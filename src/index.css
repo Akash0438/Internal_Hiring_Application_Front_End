@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(220 20% 97%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(215 28% 93%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+  --color-muted: hsl(215 28% 93%);
+  --color-muted-foreground: hsl(215 16% 47%);
+  --color-accent: hsl(215 28% 90%);
+  --color-accent-foreground: hsl(222 47% 11%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(214 32% 88%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(221 83% 53%);
+  --radius: 0.625rem;
+}
+
+:root {
+  --background: 220 20% 97%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 215 28% 93%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 215 28% 93%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 215 28% 90%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 32% 88%;
+  --input: 214 32% 91%;
+  --ring: 221 83% 53%;
+  --radius: 0.625rem;
+}
+
+* {
+  border-color: hsl(var(--border));
+  box-sizing: border-box;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  margin: 0;
+}
