@@ -7,6 +7,7 @@ import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
 import { authApi } from "@/services/api"
+import { TOKEN_KEY } from "@/lib/axios"
 import { useAuth } from "@/context/AuthContext"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -38,10 +39,11 @@ export default function ChangePasswordPage() {
   async function onSubmit(values: FormValues) {
     setLoading(true)
     try {
-      await authApi.changePassword(values.new_password)
-      // Backend re-issues the cookie with must_change_password=false.
-      // Update context directly so ProtectedRoute sees the new flag immediately.
-      setUser((prev) => prev ? { ...prev, must_change_password: false } : prev)
+      const res = await authApi.changePassword(values.new_password)
+      // Store the new token (must_change_password=false baked in)
+      localStorage.setItem(TOKEN_KEY, res.data.access_token)
+      const { access_token: _, ...userOnly } = res.data
+      setUser(userOnly)
       toast.success("Password changed successfully")
       navigate("/dashboard", { replace: true })
     } catch {

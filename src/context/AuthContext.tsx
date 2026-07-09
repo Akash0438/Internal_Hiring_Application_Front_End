@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { authApi } from "@/services/api"
+import { TOKEN_KEY } from "@/lib/axios"
 import type { UserResponse } from "@/types"
 
 interface AuthContextValue {
@@ -16,7 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Restore session on mount
+  // Restore session on mount — token already in localStorage, axios attaches it
   useEffect(() => {
     authApi
       .me()
@@ -27,12 +28,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string): Promise<UserResponse> => {
     const res = await authApi.login(email, password)
-    setUser(res.data)
-    return res.data
+    localStorage.setItem(TOKEN_KEY, res.data.access_token)
+    const { access_token: _, ...userOnly } = res.data
+    setUser(userOnly)
+    return userOnly
   }
 
   const logout = async () => {
     await authApi.logout()
+    localStorage.removeItem(TOKEN_KEY)
     setUser(null)
   }
 

@@ -1,18 +1,26 @@
 import axios from "axios"
 
+export const TOKEN_KEY = "access_token"
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
-  withCredentials: true, // required for httpOnly cookie auth
   headers: { "Content-Type": "application/json" },
 })
 
-// On 401, redirect to /login (session expired or not authenticated)
+// Attach Bearer token from localStorage on every request
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem(TOKEN_KEY)
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
+
+// On 401, clear token and redirect to /login
 api.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response?.status === 401) {
-      // Avoid redirect loop on the login page itself
       if (!window.location.pathname.includes("/login")) {
+        localStorage.removeItem(TOKEN_KEY)
         window.location.href = "/login"
       }
     }
