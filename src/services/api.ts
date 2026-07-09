@@ -6,20 +6,21 @@ import type {
   CandidateResponse,
   FeedbackResponse,
   NotificationResponse,
+  TokenUserResponse,
   UserResponse,
 } from "@/types"
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const authApi = {
   login: (email: string, password: string) =>
-    api.post<UserResponse>("/api/auth/login", { email, password }),
+    api.post<TokenUserResponse>("/api/auth/login", { email, password }),
 
   logout: () => api.post("/api/auth/logout"),
 
   me: () => api.get<UserResponse>("/api/auth/me"),
 
   changePassword: (new_password: string, current_password?: string) =>
-    api.post("/api/auth/change-password", { new_password, current_password }),
+    api.post<TokenUserResponse>("/api/auth/change-password", { new_password, current_password }),
 }
 
 // ── Users ─────────────────────────────────────────────────────────────────────
