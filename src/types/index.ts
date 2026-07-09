@@ -33,6 +33,10 @@ export interface UserResponse {
   created_at?: string
 }
 
+export interface TokenUserResponse extends UserResponse {
+  access_token: string
+}
+
 export interface CandidateResponse {
   id: string
   employee_id: string
