@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { authApi } from "@/services/api"
 import { TOKEN_KEY } from "@/lib/axios"
-import type { UserResponse } from "@/types"
+import type { TokenUserResponse, UserResponse } from "@/types"
 
 interface AuthContextValue {
   user: UserResponse | null
@@ -28,8 +28,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string): Promise<UserResponse> => {
     const res = await authApi.login(email, password)
-    localStorage.setItem(TOKEN_KEY, res.data.access_token)
-    const { access_token: _, ...userOnly } = res.data
+    const data: TokenUserResponse = res.data
+    localStorage.setItem(TOKEN_KEY, data.access_token)
+    const { access_token: _, ...userOnly } = data
     setUser(userOnly)
     return userOnly
   }
