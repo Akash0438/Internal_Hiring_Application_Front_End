@@ -39,9 +39,9 @@ export default function ChangePasswordPage() {
     setLoading(true)
     try {
       await authApi.changePassword(values.new_password)
-      // Refresh user session — must_change_password is now false
-      const res = await authApi.me()
-      setUser(res.data)
+      // Backend re-issues the cookie with must_change_password=false.
+      // Update context directly so ProtectedRoute sees the new flag immediately.
+      setUser((prev) => prev ? { ...prev, must_change_password: false } : prev)
       toast.success("Password changed successfully")
       navigate("/dashboard", { replace: true })
     } catch {

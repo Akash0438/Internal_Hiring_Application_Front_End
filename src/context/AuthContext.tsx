@@ -7,7 +7,7 @@ interface AuthContextValue {
   isLoading: boolean
   login: (email: string, password: string) => Promise<UserResponse>
   logout: () => Promise<void>
-  setUser: (user: UserResponse | null) => void
+  setUser: React.Dispatch<React.SetStateAction<UserResponse | null>>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
